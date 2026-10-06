@@ -50,6 +50,8 @@ h2 em,h1 em{color:var(--rose);font-style:italic}
 .ribbon b{color:var(--gold-lt);font-weight:600}
 header{position:fixed;left:0;right:0;top:34px;z-index:60;transition:top .4s var(--ease),background .4s,box-shadow .4s}
 header.solid{top:0;background:rgba(251,247,242,.86);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(201,164,106,.25)}
+header.dark{background:rgba(31,20,24,.82);color:#f4e9e2;box-shadow:0 1px 0 rgba(255,255,255,.08)}
+header.dark .burger span{background:#fff}
 .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
 .logo{font-family:var(--serif);font-size:1.65rem;letter-spacing:.16em;line-height:1;text-transform:uppercase;font-weight:500}
 .logo small{display:block;font-family:var(--sans);font-size:.52rem;letter-spacing:.44em;color:var(--gold);margin-top:6px;font-weight:600}
@@ -114,13 +116,13 @@ section{position:relative}
 .steps p{font-size:.86rem;color:#c9b8b1;max-height:0;overflow:hidden;transition:max-height .5s var(--ease),margin .5s}
 .steps li.on p{max-height:70px;margin-top:.25rem}
 .stage{position:relative;height:min(82vh,680px);display:grid;place-items:center}
-.stage svg{height:100%;width:auto;max-width:100%;overflow:visible}
+.stage svg{height:min(74vh,620px);width:auto;max-width:100%;overflow:visible}
 .stage .count{position:absolute;left:0;top:4%;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:#c9b8b1;display:flex;align-items:baseline;gap:.5rem}
 .stage .count b{font-family:var(--serif);font-size:3.4rem;color:#fff;font-weight:500;letter-spacing:0;line-height:1}
 .tag{position:absolute;padding:.6rem 1rem;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(6px);font-size:.74rem;color:#fff;opacity:0;white-space:nowrap}
 .tag small{display:block;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt)}
 .tag-1{left:2%;top:30%}.tag-2{right:0;top:22%}.tag-3{right:2%;bottom:24%}.tag-4{left:4%;bottom:14%}
-.reveal-photo{position:absolute;inset:4% 14%;border-radius:999px 999px 24px 24px;overflow:hidden;clip-path:circle(0% at 50% 40%)}
+.reveal-photo{position:absolute;inset:3% 18%;border-radius:999px 999px 24px 24px;overflow:hidden;clip-path:circle(0% at 50% 40%)}
 .reveal-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
 .reveal-photo span{position:absolute;left:0;right:0;bottom:0;padding:2.5rem 1rem 1.3rem;text-align:center;font-family:var(--serif);font-style:italic;font-size:1.6rem;color:#fff;background:linear-gradient(transparent,rgba(31,20,24,.75))}
 .draw{fill:none;stroke:var(--gold-lt);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
@@ -148,7 +150,8 @@ section{position:relative}
 .card-cta .btn{background:#fff;color:var(--rose-dk);align-self:flex-start;margin-top:1.2rem}
 
 /* números */
-.nums{background:var(--cream)}
+.nums{background:var(--cream);padding:4.5rem 0}
+.nums-grid b .cnt{font:inherit;letter-spacing:0;color:inherit;text-transform:none}
 .nums-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(42,32,35,.12)}
 .nums-grid div{padding:2.6rem 1.4rem 0;border-right:1px solid rgba(42,32,35,.12)}
 .nums-grid div:last-child{border-right:0}
@@ -235,6 +238,7 @@ footer{background:var(--wine);color:#cbbcb6;padding:5rem 0 2rem;overflow:hidden}
   .step-now{display:block!important;min-height:3.6em;margin-top:.8rem;font-size:.9rem;color:#e9dcd5}
   .step-now b{color:var(--gold-lt);display:block;font-size:1rem}
   .stage{height:52svh}
+  .stage svg{height:50svh}
   .tag{display:none}
   .stage .count b{font-size:2.4rem}
   .nums-grid{grid-template-columns:1fr 1fr}
@@ -589,6 +593,8 @@ if(!window.gsap||!window.ScrollTrigger||reduce){
     $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id.length>1&&$(id)){e.preventDefault();lenis.scrollTo(id,{offset:id==='#atelie'?0:-70})}}));
   }
 
+  // header escuro sobre seções escuras
+  $$('.atelier,.revs,footer').forEach(s=>ScrollTrigger.create({trigger:s,start:'top 60px',end:'bottom 60px',toggleClass:{targets:'#hdr',className:'dark'}}));
   // barra de progresso
   gsap.to('#progress',{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.3}});
 
@@ -659,6 +665,7 @@ if(!window.gsap||!window.ScrollTrigger||reduce){
     .to('#t4',{opacity:1,y:-10,duration:.4},'s6+=.4')
     .to('#realPhoto',{clipPath:'circle(80% at 50% 40%)',duration:1.1,ease:'power2.inOut'},'s6+=.9')
     .to('#t4',{opacity:0,duration:.3},'s6+=.9')
+    .to('#dress',{opacity:0,duration:.4},'s6+=1.6')
     .to({},{duration:.5});
 
   /* ----- coleções em scroll horizontal (desktop) ----- */
